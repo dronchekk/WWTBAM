@@ -8,6 +8,7 @@
 import Foundation
 
 struct Record: Codable {
+    
     let date: Date
     let score: Double
 }
@@ -22,7 +23,7 @@ final class Game {
         }
     }
 
-    private let recordsCaretaker = RecordsCaretaker()
+    private let recordsCaretaker = Caretaker()
 
     var currentSession: GameSession?
 
@@ -50,11 +51,16 @@ class GameSession {
 }
 
 extension GameSession: GameHandler {
+
+    var competingStatus: Double {
+        return Double(wrigtAnswersCount) / Double(overallQuestioncount) * 100.0
+    }
+
     func updateWrigtAnswersCount(_ count: Int) {
         self.wrigtAnswersCount = count
     }
 
     func getRecord() -> Record {
-        return Record(date: Date(), score: Double(wrigtAnswersCount) / Double(overallQuestioncount) * 100.0)
+        return Record(date: Date(), score: competingStatus)
     }
 }
